@@ -8,13 +8,12 @@ export async function getAllPosts(request: FastifyRequest, reply: FastifyReply) 
   return reply.status(200).send(posts);
 }
 
-
 export async function getPostById(request: FastifyRequest, reply: FastifyReply) {
-  const postById = await repository.getPostById();
+  const { id } = request.params as { id: string };
+  const postById = await repository.getPostById(parseInt(id));
 
   return reply.status(200).send(postById);
 }
-
 
 export async function createNewPost(request: FastifyRequest, reply: FastifyReply) {
   const newPost = await repository.createNewPost();

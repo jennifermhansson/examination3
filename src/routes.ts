@@ -19,7 +19,7 @@ async function routes(
 
     fastifyServer.route({
     method: "POST",
-    url: "/post",
+    url: "/posts",
     handler: controllers.createNewPost,
   });
 
