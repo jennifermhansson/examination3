@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun --hot ./src/index.ts"
+    "start": "bun --hot ./src/server.ts"
   },
   "private": true,
   "devDependencies": {
@@ -13,6 +13,9 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "fastify": "^5.7.4"
+    "@fastify/jwt": "^10.0.0",
+    "fastify": "^5.7.4",
+    "fastify-plugin": "^5.1.0",
+    "jwks-rsa": "^3.2.2"
   }
 }

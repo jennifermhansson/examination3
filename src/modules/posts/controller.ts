@@ -1,7 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import * as repository from "./repository"
 
-
 export async function getAllPosts(request: FastifyRequest, reply: FastifyReply) {
   const posts = await repository.getAllPosts();
 

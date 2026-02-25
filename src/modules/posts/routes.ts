@@ -1,5 +1,5 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
-import * as controllers from "./controllers";
+import * as controller from "./controller"
 
 async function routes(
   fastifyServer: FastifyInstance,
@@ -8,21 +8,20 @@ async function routes(
     fastifyServer.route({
     method: "GET",
     url: "/posts",
-    handler: controllers.getAllPosts,
+    handler: controller.getAllPosts,
   });
 
     fastifyServer.route({
     method: "GET",
     url: "/posts/:id",
-    handler: controllers.getPostById,
+    handler: controller.getPostById,
   });
 
     fastifyServer.route({
     method: "POST",
     url: "/posts",
-    handler: controllers.createNewPost,
+    handler: controller.createNewPost,
   });
 
-  
 }
-  export default routes
+export default routes
