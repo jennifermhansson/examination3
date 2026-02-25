@@ -6,3 +6,9 @@ export async function getAllComments(request: FastifyRequest, reply: FastifyRepl
 
   return reply.status(200).send(comments);
 }
+
+export async function createNewComment(request: FastifyRequest, reply: FastifyReply) {
+  const newComment = await repository.createNewComment();
+
+  return reply.status(200).send(newComment);
+}

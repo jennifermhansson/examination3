@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import * as controller from "./controller"
+import { requireAuth } from "../../auth/auth";
 
 async function routes(
   fastifyServer: FastifyInstance,
@@ -20,6 +21,7 @@ async function routes(
     fastifyServer.route({
     method: "POST",
     url: "/posts",
+    preHandler: requireAuth,
     handler: controller.createNewPost,
   });
 

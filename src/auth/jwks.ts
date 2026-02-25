@@ -1,6 +1,8 @@
 import type { FastifyRequest } from "fastify";
 import jwksClient from "jwks-rsa";
 
+// här finns kontroll mot Auth0 för public Key
+
 const AUTH0_JWKS_URI = process.env.AUTH0_JWKS_URI;
 
 if (!AUTH0_JWKS_URI) throw new Error("No AUTH0_JWKS_URI provided");
