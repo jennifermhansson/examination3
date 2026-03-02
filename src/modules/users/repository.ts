@@ -5,7 +5,7 @@ export async function upsertUser(user: {
   email?: string | null;
   name?: string | null;
 }) {
-  const result = await db`
+  const newUser = await db`
     INSERT INTO users (auth0_id, email, name)
     VALUES (${user.auth0_id}, ${user.email ?? null}, ${user.name ?? null})
     ON CONFLICT (auth0_id)
@@ -15,5 +15,9 @@ export async function upsertUser(user: {
     RETURNING *
   `;
 
-  return result[0] ?? null;
+    if (!newUser) {
+    throw new Error("Failed to create new User");
+  }
+
+  return newUser[0] ?? null;
 }

@@ -12,14 +12,20 @@ async function routes(
     handler: controller.getAllComments,
   });
 
+  // REST style: comments belonging to one post
+    fastifyServer.route({
+    method: "GET",
+    url: "/posts/:postId/comments",
+    handler: controller.getCommentPerPost,
+  });
+
+  // REST style: create comment for one post
     fastifyServer.route({
     method: "POST",
-    url: "/newComment",
+    url: "/posts/:postId/comments",
     preHandler: requireAuth,
     handler: controller.createNewComment,
   });
-
-
   
 }
 

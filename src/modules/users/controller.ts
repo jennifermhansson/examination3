@@ -18,5 +18,5 @@ export async function getOrCreateUser(
     name: authUser?.name ?? authUser?.nickname,
   });
 
-  return reply.send(dbUser);
+  return reply.status(200).send(dbUser);
 }

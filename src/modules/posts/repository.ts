@@ -15,12 +15,25 @@ export async function getPostById(id: number) {
 
   return post[0] ?? null;
 }
+//  [newPost] is just array destructuring to get row 1 directly.
+// Look up the internal users.id using auth0_id from JWT, then create the post.
+// SELECT lets us derive user_id from users table in one query.
+// If no row is returned, there was no matching user for the token subject.
 
-export async function createNewPost() {
-    const newPost = await db`
-    INSERT INTO posts (title, content)
-    VALUES ($1, $2)
-    RETURNING id, title, content, created_at`
+export async function createNewPost(title: string, content: string, auth0_id: string) {
+ 
+  const [newPost] = await db`
+    INSERT INTO posts (title, content, user_id)
+   
+    SELECT ${title}, ${content}, u.id
+    FROM users u
+    WHERE u.auth0_id = ${auth0_id}
+    RETURNING id, title, content, user_id, created_at
+  `;
 
-    return newPost
+  if (!newPost) {
+    throw new Error("User not found. Failed to create new post");
+  }
+
+  return newPost;
 }

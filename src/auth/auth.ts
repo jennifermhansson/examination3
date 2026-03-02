@@ -5,7 +5,7 @@ import type { TokenPayload } from "../types/auth";
 import getPublicKey from "./jwks";
 // import { isAdmin } from "./repository/permissions";
 
-// Isolerad auth-logik med JWT-verifiering, JWKS
+// Här finns isolerad auth-logik med JWT-verifiering, JWKS
 
 declare module "fastify" {
   interface FastifyInstance {
