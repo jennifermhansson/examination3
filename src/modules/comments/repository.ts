@@ -15,11 +15,7 @@ export async function createNewComment(comment: string, post_id: number, auth0_i
     RETURNING id, post_id, user_id, comment, created_at
   `;
 
-  if (!newComment) {
-    throw new Error("User or post not found. Failed to create new comment");
-  }
-
-  return newComment;
+  return newComment ?? null;
 }
 
 export async function getCommentPerPost(postId: number) {

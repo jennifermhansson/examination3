@@ -1,24 +1,32 @@
 import db from "../../db";
 
 export async function getAllPosts() {
-  const posts = await db`SELECT * FROM posts`;
+  const posts = await db`
+    SELECT id, title, content, created_at
+    FROM posts
+    ORDER BY created_at DESC`;
   return posts;
 }
   
-
-export async function getPostById(id: number) {
-  const post = await db`
+export async function findPostById(postId: number) {
+  const [post] = await db`
     SELECT id, title, content, created_at
     FROM posts
-    WHERE id = ${id}
+    WHERE id = ${postId}
   `;
 
-  return post[0] ?? null;
+  return post ?? null;
 }
-//  [newPost] is just array destructuring to get row 1 directly.
-// Look up the internal users.id using auth0_id from JWT, then create the post.
-// SELECT lets us derive user_id from users table in one query.
-// If no row is returned, there was no matching user for the token subject.
+
+export async function getPostsByUserId(userId: number) {
+  const posts = await db`
+    SELECT id, title, content, created_at
+    FROM posts
+    WHERE user_id = ${userId}
+  `;
+
+  return posts;
+}
 
 export async function createNewPost(title: string, content: string, auth0_id: string) {
  
@@ -31,9 +39,5 @@ export async function createNewPost(title: string, content: string, auth0_id: st
     RETURNING id, title, content, user_id, created_at
   `;
 
-  if (!newPost) {
-    throw new Error("User not found. Failed to create new post");
-  }
-
-  return newPost;
+  return newPost ?? null;
 }

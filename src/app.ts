@@ -3,6 +3,7 @@ import postsRoutes from "./modules/posts/routes";
 import commentsRoutes from "./modules/comments/routes";
 import usersRoutes from "./modules/users/routes";
 import { authPlugin } from "./auth/auth";
+import { registerErrorHandler } from "./plugins/error-handler";
 
 // Här konfigureras appen med plugins, routes, middlewares och auth
 
@@ -11,8 +12,11 @@ export function App() {
     logger: true
   });
 
+  registerErrorHandler(app)
+
   app.register(authPlugin);
-  app.register(postsRoutes, commentsRoutes);
+  app.register(postsRoutes);
+  app.register(commentsRoutes)
   app.register(usersRoutes, { prefix: "/users" });
 
 

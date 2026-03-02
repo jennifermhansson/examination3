@@ -14,8 +14,14 @@ async function routes(
 
     fastifyServer.route({
     method: "GET",
-    url: "/posts/:id",
+    url: "/post/:id",
     handler: controller.getPostById,
+  });
+
+    fastifyServer.route({
+    method: "GET",
+    url: "/users/:id/posts",
+    handler: controller.getPostsByUserId,
   });
 
     fastifyServer.route({
