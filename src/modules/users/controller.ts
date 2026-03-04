@@ -1,16 +1,13 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import * as service from "./service";
+import { validateNumericId } from "../../utils/validations";
 
 export async function getOrCreateUser(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const authUser = request.user as any;
   const auth0Id = authUser?.sub;
-
-  if (!auth0Id) {
-    return reply.status(401).send({ message: "Invalid token payload" });
-  }
 
   const dbUser = await service.syncUserFromAuth0({
     auth0_id: auth0Id,
@@ -19,4 +16,20 @@ export async function getOrCreateUser(
   });
 
   return reply.status(200).send(dbUser);
+}
+
+type DeleteUserParams = {
+  id: string;
+};
+
+export async function deleteUser(
+  request: FastifyRequest<{ Params: DeleteUserParams }>,
+  reply: FastifyReply,
+) {
+  const { id } = request.params;
+  const userId = validateNumericId(id, "user id");
+
+  await service.deleteUserById(userId)
+
+  return reply.status(200).send({ message: `User ${userId} deleted` });
 }

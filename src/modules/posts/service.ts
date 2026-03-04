@@ -1,20 +1,51 @@
 import * as repository from "./repository";
-import { httpError } from "../../utils/httpError";
+import { BadRequest, NotFound, Unauhtorized } from "../../utils/errors";
+
+export async function getAllPosts() {
+  return repository.getAllPosts();
+}
+
+export async function getPostsByUserId(userId: number) {
+  return repository.getPostsByUserId(userId);
+}
 
 export async function createPostForAuthUser(title: string, content: string, auth0_id?: string) {
   if (!auth0_id) {
-    throw httpError(401, "Invalid token payload", "UNAUTHORIZED");
+    throw new Unauhtorized("Invalid token payload", {})
+    
   }
 
   if (!title?.trim() || !content?.trim()) {
-    throw httpError(400, "Title and content are required", "BAD_REQUEST");
+    throw new BadRequest("Title and content are required", {})
   }
 
   const newPost = await repository.createNewPost(title, content, auth0_id);
 
   if (!newPost) {
-    throw httpError(404, "User not found. Failed to create new post", "USER_NOT_FOUND");
+     throw new NotFound("Failed to create post. User not found",{});
   }
 
   return newPost;
 }
+
+export async function deletePost(postId: number) {
+  const postExist = await repository.deletePostById(postId);
+
+  if (!postExist) {
+    throw new NotFound("Post not found",{});
+  }
+
+  return;
+}
+
+export async function ensurePostExists(postId: number) {
+  const post = await repository.findPostById(postId);
+
+  if (!post) {
+     throw new NotFound("Post not found",{});
+  }
+
+  return post;
+}
+
+

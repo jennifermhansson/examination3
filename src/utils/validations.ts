@@ -1,4 +1,5 @@
-import { httpError } from "../utils/httpError";
+import { BadRequest } from "./errors";
+
 
 /**
  * Validerar och konverterar postId från route param.
@@ -11,7 +12,8 @@ export function validateNumericId(
   const id = Number(rawId);
 
   if (!Number.isInteger(id) || id <= 0) {
-    throw httpError(400, `Invalid ${fieldName}`, "BAD_REQUEST");
+    throw new BadRequest(`Invalid ${fieldName}`, {})
+  
   }
 
   return id;

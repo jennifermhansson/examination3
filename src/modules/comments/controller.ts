@@ -4,7 +4,6 @@ import * as service from "./service";
 import type { TokenPayload } from "../../types/auth";
 import type { CreateCommentBody } from "../../types/http";
 import { validateNumericId } from "../../utils/validations";
-import { httpError } from "../../utils/httpError";
 
 export async function getAllComments(
   _request: FastifyRequest,
@@ -39,8 +38,15 @@ export async function getCommentPerPost(
   reply: FastifyReply
 ) {
   const postId = validateNumericId(request.params.postId);
-
   const comments = await repository.getCommentPerPost(postId);
 
   return reply.status(200).send(comments);
+}
+
+export async function deleteComment(request: FastifyRequest, reply: FastifyReply) {
+  const { id } = request.params as { id: string };
+  const commentId = validateNumericId(id);
+  await service.deleteComment(commentId);
+  
+  return reply.status(204).send();
 }

@@ -31,5 +31,13 @@ async function routes(
     handler: controller.createNewPost,
   });
 
+    fastifyServer.route({
+    method: "DELETE",
+    url: "/posts/:id",
+    preHandler: requireAuth,
+    handler: controller.deletePost,
+  });
+
+
 }
 export default routes

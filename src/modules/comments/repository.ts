@@ -27,4 +27,13 @@ export async function getCommentPerPost(postId: number) {
   `;
   return comments;
 }
+
+export async function deleteCommentById(commentId: number) {
+const rows = await db`
+    DELETE FROM comments
+    WHERE id = ${commentId}
+    RETURNING id
+  `;
+  return Array.isArray(rows) && rows.length > 0;
+}
   

@@ -41,3 +41,12 @@ export async function createNewPost(title: string, content: string, auth0_id: st
 
   return newPost ?? null;
 }
+
+export async function deletePostById(postId: number) {
+const rows = await db`
+    DELETE FROM posts
+    WHERE id = ${postId}
+    RETURNING id
+  `;
+  return Array.isArray(rows) && rows.length > 0;
+}

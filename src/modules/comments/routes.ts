@@ -25,6 +25,12 @@ async function routes(
     handler: controller.createNewComment,
   });
   
+    fastifyServer.route({
+    method: "DELETE",
+    url: "/comment/:id",
+    preHandler: requireAuth,
+    handler: controller.deleteComment,
+    });
 }
 
 export default routes

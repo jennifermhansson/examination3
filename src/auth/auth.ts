@@ -3,7 +3,9 @@ import type { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyReques
 import fastifyPlugin from "fastify-plugin";
 import type { TokenPayload } from "../types/auth";
 import getPublicKey from "./jwks";
-// import { isAdmin } from "./repository/permissions";
+import { isAdmin } from "../modules/users/repository";
+import { BaseError, Forbidden, Unauhtorized } from "../utils/errors";
+
 
 // Här finns isolerad auth-logik med JWT-verifiering, JWKS
 
@@ -21,10 +23,11 @@ export async function requireAuth(
   try {
     await request.jwtVerify<TokenPayload>({});
   } catch (error) {
-    return reply.status(401).send({ message: "You are not authorized" });
+      request.log.error({ err: error }, "JWT verification failed");
+      throw new Unauhtorized("You are not authorized", {})
   }
 }
-/* 
+
 export async function requireAdmin(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -35,15 +38,19 @@ export async function requireAdmin(
 
     const userIsAdmin = await isAdmin(auth0Sub);
 
-    // Returns 403 Forbidden if not admin
     if (!userIsAdmin) {
-      return reply.status(403).send({ message: "Forbidden" });
-    }
-  } catch {
-    // Returns 401 Unauthorized if token invalid
-    return reply.status(401).send({ message: "You are not authorized" });
+    
+    throw new Forbidden("Not an admin", {})
   }
-} */
+  } catch (error) {
+    if (error instanceof BaseError) {
+    
+      throw error;
+    }
+
+    throw new Unauhtorized("You are not authorized", {})
+  }
+} 
 
 export async function authPlugin(
   fastify: FastifyInstance,
@@ -55,7 +62,7 @@ export async function authPlugin(
   });
 
   fastify.decorate("requireAuth", requireAuth);
-//   fastify.decorate("requireAdmin", requireAdmin);
+ fastify.decorate("requireAdmin", requireAdmin);
 }
 
 export default fastifyPlugin(authPlugin);
