@@ -2,7 +2,7 @@ import fastify from "fastify";
 import postsRoutes from "./modules/posts/routes";
 import commentsRoutes from "./modules/comments/routes";
 import usersRoutes from "./modules/users/routes";
-import { authPlugin } from "./auth/auth";
+import { authPlugin } from "./plugins/auth/auth";
 import { registerErrorHandler } from "./plugins/error-handler";
 
 // Här konfigureras appen med plugins, routes, middlewares och auth

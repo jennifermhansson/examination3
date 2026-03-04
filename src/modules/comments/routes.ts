@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import * as controller from "./controller"
-import { requireAuth } from "../../auth/auth";
+import { requireAuth } from "../../plugins/auth/auth";
+import { commentIdSchema, createCommentSchema, postIdParamsSchema } from "./schema";
 
 async function routes(
   fastifyServer: FastifyInstance,
@@ -15,6 +16,7 @@ async function routes(
     fastifyServer.route({
     method: "GET",
     url: "/posts/:postId/comments",
+    schema: { params: postIdParamsSchema },
     handler: controller.getCommentPerPost,
   });
 
@@ -22,6 +24,7 @@ async function routes(
     method: "POST",
     url: "/posts/:postId/comments",
     preHandler: requireAuth,
+    schema: createCommentSchema,
     handler: controller.createNewComment,
   });
   
@@ -29,6 +32,7 @@ async function routes(
     method: "DELETE",
     url: "/comment/:id",
     preHandler: requireAuth,
+    schema: commentIdSchema,
     handler: controller.deleteComment,
     });
 }

@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import * as service from "./service";
 import type { TokenPayload } from "../../types/auth";
 import type { CreatePostBody } from "../../types/http";
-import { validateNumericId } from "../../utils/validations";
+// import { validateNumericId } from "../../utils/validations";
 
 
 export async function getAllPosts(_request: FastifyRequest, reply: FastifyReply) {
@@ -13,7 +13,7 @@ export async function getAllPosts(_request: FastifyRequest, reply: FastifyReply)
 }
 export async function getPostById(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.params as { id: string };
-  const postId = validateNumericId(id, "post id");
+  const postId = Number(id);
   const post = await service.ensurePostExists(postId);
 
   return reply.status(200).send(post);
@@ -21,7 +21,7 @@ export async function getPostById(request: FastifyRequest, reply: FastifyReply) 
 
 export async function getPostsByUserId(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.params as { id: string };
-  const userId = validateNumericId(id, "user id");
+  const userId = Number(id)
   const posts = await service.getPostsByUserId(userId);
  
   return reply.status(200).send(posts);
@@ -41,7 +41,7 @@ export async function createNewPost(
 
 export async function deletePost(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.params as { id: string };
-  const postId = validateNumericId(id, "post id");
+  const postId = Number(id);
   await service.deletePost(postId);
 
   return reply.status(204).send();

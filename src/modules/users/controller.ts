@@ -1,6 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import * as service from "./service";
-import { validateNumericId } from "../../utils/validations";
 
 export async function getOrCreateUser(
   request: FastifyRequest,
@@ -27,7 +26,7 @@ export async function deleteUser(
   reply: FastifyReply,
 ) {
   const { id } = request.params;
-  const userId = validateNumericId(id, "user id");
+  const userId = Number(id)
 
   await service.deleteUserById(userId)
 

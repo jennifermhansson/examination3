@@ -1,10 +1,10 @@
 import fastifyJwt from "@fastify/jwt";
 import type { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } from "fastify";
 import fastifyPlugin from "fastify-plugin";
-import type { TokenPayload } from "../types/auth";
+import type { TokenPayload } from "../../types/auth";
 import getPublicKey from "./jwks";
-import { isAdmin } from "../modules/users/repository";
-import { BaseError, Forbidden, Unauhtorized } from "../utils/errors";
+import { isAdmin } from "../../modules/users/repository";
+import { BaseError, Forbidden, Unauhtorized } from "../../utils/errors";
 
 
 // Här finns isolerad auth-logik med JWT-verifiering, JWKS

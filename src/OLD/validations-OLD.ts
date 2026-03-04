@@ -1,10 +1,6 @@
-import { BadRequest } from "./errors";
+/* import { BadRequest } from "./errors";
 
 
-/**
- * Validerar och konverterar postId från route param.
- * Kastar 400 om ogiltigt.
- */
 export function validateNumericId(
   rawId: string,
   fieldName = "id"
@@ -17,4 +13,4 @@ export function validateNumericId(
   }
 
   return id;
-}
+} */

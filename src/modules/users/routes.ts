@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import * as controller from "./controller";
-import { requireAuth, requireAdmin } from "../../auth/auth";
+import { requireAuth, requireAdmin } from "../../plugins/auth/auth";
+// import { CreateUserSchema } from "./schema";
 
 
 async function routes(
@@ -11,6 +12,7 @@ async function routes(
     method: "GET",
     url: "/me",
     preHandler: requireAuth,
+    // schema: CreateUserSchema,
     handler: controller.getOrCreateUser,
   });
 

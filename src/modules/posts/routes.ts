@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import * as controller from "./controller"
-import { requireAuth } from "../../auth/auth";
+import { requireAuth } from "../../plugins/auth/auth";
+import { createPostSchema, postIdSchema } from "./schema";
 
 async function routes(
   fastifyServer: FastifyInstance,
@@ -15,12 +16,14 @@ async function routes(
     fastifyServer.route({
     method: "GET",
     url: "/post/:id",
+    schema: postIdSchema,
     handler: controller.getPostById,
   });
 
     fastifyServer.route({
     method: "GET",
     url: "/users/:id/posts",
+    schema: postIdSchema,
     handler: controller.getPostsByUserId,
   });
 
@@ -28,6 +31,7 @@ async function routes(
     method: "POST",
     url: "/posts",
     preHandler: requireAuth,
+    schema: createPostSchema,
     handler: controller.createNewPost,
   });
 
@@ -35,6 +39,7 @@ async function routes(
     method: "DELETE",
     url: "/posts/:id",
     preHandler: requireAuth,
+    schema: postIdSchema,
     handler: controller.deletePost,
   });
 

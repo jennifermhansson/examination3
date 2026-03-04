@@ -9,7 +9,6 @@ export abstract class BaseError extends Error {
         this.params = params
         this.full_error = full_error
     }
-
     toPublicError() {
         return {
             success: false,
@@ -24,9 +23,7 @@ export class BadRequest extends BaseError {
 
     constructor(
         message: string = "Invalid request",
-        full_error: {}
-    
-    
+        full_error: {}    
     ) {
         super(message, full_error)
     }
@@ -38,12 +35,10 @@ export class NotFound extends BaseError {
     constructor(
         message: string = "Not found",
         full_error: {}
-    
     ) {
         super(message, full_error)
     }
 }
-
 
 export class Unauhtorized extends BaseError {
     statusCode: number = 401
@@ -51,7 +46,6 @@ export class Unauhtorized extends BaseError {
     constructor(
         message: string = "You are not authorized",
         full_error: {}
-    
     ) {
         super(message, full_error)
     }
@@ -62,19 +56,29 @@ export class InternalError extends BaseError {
 
     constructor(
         message: string = "Internal Server Error",
-        full_error: {}
-    
+        full_error: {}    
     ) {
         super(message, full_error)
     }
 }
+
 export class Forbidden extends BaseError {
     statusCode: number = 403
 
     constructor(
         message: string = "Not an admin",
-        full_error: {}
-    
+        full_error: {}   
+    ) {
+        super(message, full_error)
+    }
+}
+
+export class ValidationError extends BaseError {
+    statusCode: number = 400
+
+    constructor(
+        message: string = "Invalid request data",
+        full_error: {}   
     ) {
         super(message, full_error)
     }
