@@ -8,6 +8,14 @@ async function routes(
   fastifyServer: FastifyInstance,
   options: FastifyPluginOptions,
 ) {
+
+    fastifyServer.route({
+    method: "GET",
+    url: "/protected",
+    preHandler: requireAuth,
+    handler: controller.getOrCreateUser,
+  });
+
     fastifyServer.route({
     method: "GET",
     url: "/me",

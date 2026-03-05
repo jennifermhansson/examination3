@@ -13,8 +13,9 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@fastify/cors": "^11.2.0",
     "@fastify/jwt": "^10.0.0",
-    "fastify": "^5.7.4",
+    "fastify": "^5.8.1",
     "fastify-plugin": "^5.1.0",
     "jwks-rsa": "^3.2.2"
   }

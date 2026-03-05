@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import cors from "@fastify/cors";
 import postsRoutes from "./modules/posts/routes";
 import commentsRoutes from "./modules/comments/routes";
 import usersRoutes from "./modules/users/routes";
@@ -11,6 +12,13 @@ export function App() {
   const app = fastify({
     logger: true
   });
+
+
+  app.register(cors, {
+  origin: ["http://localhost:5173"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Authorization", "Content-Type"],
+});
 
   registerErrorHandler(app)
 

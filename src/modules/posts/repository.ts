@@ -2,7 +2,7 @@ import db from "../../db";
 
 export async function getAllPosts() {
   const posts = await db`
-    SELECT id, title, content, created_at
+    SELECT id, user_id, title, content, created_at
     FROM posts
     ORDER BY created_at DESC`;
   return posts;

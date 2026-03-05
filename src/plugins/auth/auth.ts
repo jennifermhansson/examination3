@@ -21,7 +21,7 @@ export async function requireAuth(
   reply: FastifyReply,
 ) {
   try {
-    await request.jwtVerify<TokenPayload>({});
+    await request.jwtVerify();
   } catch (error) {
       request.log.error({ err: error }, "JWT verification failed");
       throw new Unauhtorized("You are not authorized", {})
@@ -56,10 +56,14 @@ export async function authPlugin(
   fastify: FastifyInstance,
   _options: FastifyPluginOptions,
 ) {
-  await fastify.register(fastifyJwt, {
-    secret: getPublicKey,
-    decode: { complete: true },
-  });
+await fastify.register(fastifyJwt, {
+  secret: getPublicKey,
+  decode: { complete: true },
+  verify: {
+    allowedIss: process.env.AUTH0_ISSUER!,
+    allowedAud: process.env.AUTH0_AUDIENCE!,
+  },
+});
 
   fastify.decorate("requireAuth", requireAuth);
  fastify.decorate("requireAdmin", requireAdmin);
