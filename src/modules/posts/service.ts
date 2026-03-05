@@ -1,5 +1,5 @@
 import * as repository from "./repository";
-import { BadRequest, NotFound, Unauhtorized } from "../../utils/errors";
+import { BadRequest, Forbidden, NotFound, Unauhtorized } from "../../utils/errors";
 
 export async function getAllPosts() {
   return repository.getAllPosts();
@@ -48,4 +48,19 @@ export async function ensurePostExists(postId: number) {
   return post;
 }
 
+export async function editPostById(
+  postId: number,
+  title: string,
+  content: string,
+) {
+  const updated = await repository.updatePostByIdForUser(postId, title, content);
+
+  if (updated) return updated;
+
+  // Om UPDATE inte returnerade något: antingen finns inte posten, eller så äger man den inte.
+  // För att ge rätt statuskod kan du kolla existens separat:
+  const exists = await repository.findPostById(postId);
+  if (!exists) throw new NotFound("Post not found", {});
+  throw new Forbidden("Not allowed to edit this post", {});
+}
 

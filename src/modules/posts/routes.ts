@@ -36,6 +36,14 @@ async function routes(
   });
 
     fastifyServer.route({
+    method: "PUT",
+    url: "/posts/:id",
+    preHandler: requireAuth,
+    schema: createPostSchema,
+    handler: controller.editPostById,
+  });
+
+    fastifyServer.route({
     method: "DELETE",
     url: "/posts/:id",
     preHandler: requireAuth,

@@ -28,6 +28,29 @@ export async function getCommentPerPost(postId: number) {
   return comments;
 }
 
+export async function updateCommentByIdForUser(
+  commentId: number,
+  comment: string
+) {
+  const [row] = await db`
+    UPDATE comments c
+    SET comment = ${comment}
+    WHERE c.id = ${commentId}
+    RETURNING c.id, c.post_id, c.user_id, c.comment, c.created_at
+  `;
+  return row ?? null;
+}
+
+export async function findCommentById(commentId: number) {
+  const [comment] = await db`
+    SELECT id, post_id, user_id, comment, created_at
+    FROM comments
+    WHERE id = ${commentId}
+  `;
+
+  return comment ?? null;
+}
+
 export async function deleteCommentById(commentId: number) {
 const rows = await db`
     DELETE FROM comments

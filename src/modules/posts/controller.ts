@@ -1,8 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import * as service from "./service";
 import type { TokenPayload } from "../../types/auth";
-import type { CreatePostBody } from "../../types/http";
-// import { validateNumericId } from "../../utils/validations";
+import type { CreatePostBody, EditPostBody, EditPostParams } from "../../types/http";
 
 
 export async function getAllPosts(_request: FastifyRequest, reply: FastifyReply) {
@@ -37,6 +36,23 @@ export async function createNewPost(
   const newPost = await service.createPostForAuthUser(title, content, auth0_id);
 
   return reply.status(201).send(newPost);
+}
+
+export async function editPostById(
+  request: FastifyRequest<{ Params: EditPostParams; Body: EditPostBody }>,
+  reply: FastifyReply
+) {
+  const postId = Number(request.params.id);
+  
+  const { title, content } = request.body;
+
+  const updated = await service.editPostById(
+    postId,
+    title.trim(),
+    content.trim(),
+  );
+
+  return reply.status(200).send(updated);
 }
 
 export async function deletePost(request: FastifyRequest, reply: FastifyReply) {

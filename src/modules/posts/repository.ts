@@ -42,6 +42,23 @@ export async function createNewPost(title: string, content: string, auth0_id: st
   return newPost ?? null;
 }
 
+export async function updatePostByIdForUser(
+  postId: number,
+  title: string,
+  content: string,
+
+) {
+  const [row] = await db`
+    UPDATE posts p
+    SET title = ${title}, content = ${content}
+    FROM users u
+    WHERE p.id = ${postId}
+      AND p.user_id = u.id
+    RETURNING p.id, p.title, p.content, p.user_id, p.created_at
+  `;
+  return row ?? null;
+}
+
 export async function deletePostById(postId: number) {
 const rows = await db`
     DELETE FROM posts

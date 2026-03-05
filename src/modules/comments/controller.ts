@@ -2,8 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import * as repository from "./repository";
 import * as service from "./service";
 import type { TokenPayload } from "../../types/auth";
-import type { CreateCommentBody } from "../../types/http";
-// import { validateNumericId } from "../../utils/validations";
+import type { CreateCommentBody, EditCommentBody, EditCommentParams } from "../../types/http";
 
 export async function getAllComments(
   _request: FastifyRequest,
@@ -37,6 +36,22 @@ export async function getCommentPerPost(
   const comments = await repository.getCommentPerPost(postId);
 
   return reply.status(200).send(comments);
+}
+
+export async function editCommentById(
+  request: FastifyRequest<{ Params: EditCommentParams; Body: EditCommentBody }>,
+  reply: FastifyReply
+) {
+  const commentId = Number(request.params.id);
+  
+  const { comment } = request.body;
+
+  const updated = await service.editCommentById(
+   commentId,
+   comment.trim()
+  );
+
+  return reply.status(200).send(updated);
 }
 
 export async function deleteComment(request: FastifyRequest, reply: FastifyReply) {

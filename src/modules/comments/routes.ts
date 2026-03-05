@@ -27,6 +27,18 @@ async function routes(
     schema: createCommentSchema,
     handler: controller.createNewComment,
   });
+
+    fastifyServer.route({
+    method: "PUT",
+    url: "/comment/:id",
+    preHandler: requireAuth,
+    schema: {
+      params: commentIdSchema.params,
+      body: createCommentSchema.body,
+    },
+    handler: controller.editCommentById,
+    });
+  
   
     fastifyServer.route({
     method: "DELETE",
