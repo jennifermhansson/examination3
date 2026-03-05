@@ -40,7 +40,7 @@ export class NotFound extends BaseError {
     }
 }
 
-export class Unauhtorized extends BaseError {
+export class Unauthorized extends BaseError {
     statusCode: number = 401
 
     constructor(

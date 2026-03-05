@@ -20,7 +20,7 @@ export async function createNewComment(request: FastifyRequest<{Params: { postId
   const auth0_id = (request.user as TokenPayload | undefined)?.sub ?? "";
 
   const newComment = await service.createCommentForAuthUser(
-    comment,
+   comment,
     postId,
     auth0_id
   );
@@ -48,7 +48,7 @@ export async function editCommentById(
 
   const updated = await service.editCommentById(
    commentId,
-   comment.trim()
+   comment
   );
 
   return reply.status(200).send(updated);

@@ -16,14 +16,7 @@ async function routes(
     handler: controller.getOrCreateUser,
   });
 
-    fastifyServer.route({
-    method: "GET",
-    url: "/me",
-    preHandler: requireAuth,
-    // schema: CreateUserSchema,
-    handler: controller.getOrCreateUser,
-  });
-
+  // kolla om delete ska ha protected också?
     fastifyServer.route({
     method: "DELETE",
     url: "/:id",

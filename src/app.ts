@@ -27,6 +27,7 @@ export function App() {
   app.register(commentsRoutes)
   app.register(usersRoutes, { prefix: "/users" });
 
+// dubbelkolla vad prefixet gör
 
 return app;
 }

@@ -2,6 +2,8 @@ import { App } from "./app"
 
 // här startar Fastify servern, lyssnar på porten och kontrollerar anslutningen till databasen.
 
+// borde jag byta till port 3000?
+
 const server = App()
 
     async function testDbConnection() {

@@ -8,8 +8,8 @@ export async function getAllPosts(_request: FastifyRequest, reply: FastifyReply)
   const posts = await service.getAllPosts();
   
   return reply.status(200).send(posts);
-  
 }
+
 export async function getPostById(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.params as { id: string };
   const postId = Number(id);
@@ -25,7 +25,6 @@ export async function getPostsByUserId(request: FastifyRequest, reply: FastifyRe
  
   return reply.status(200).send(posts);
 }
-
 
 export async function createNewPost(
   request: FastifyRequest<{ Body: CreatePostBody }>,
@@ -43,13 +42,12 @@ export async function editPostById(
   reply: FastifyReply
 ) {
   const postId = Number(request.params.id);
-  
   const { title, content } = request.body;
 
   const updated = await service.editPostById(
     postId,
-    title.trim(),
-    content.trim(),
+    title,
+    content,
   );
 
   return reply.status(200).send(updated);

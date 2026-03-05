@@ -1,5 +1,5 @@
 
-import { NotFound, Unauhtorized } from "../../utils/errors";
+import { NotFound, Unauthorized } from "../../utils/errors";
 import * as repository from "./repository";
 
 export async function syncUserFromAuth0(payload: {
@@ -8,7 +8,7 @@ export async function syncUserFromAuth0(payload: {
   name?: string;
 }) {
   if (!payload.auth0_id) {
-    throw new Unauhtorized("Invalid Auth0 payload",{})
+    throw new Unauthorized("Invalid Auth0 payload",{})
     
   }
 

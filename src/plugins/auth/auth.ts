@@ -4,7 +4,7 @@ import fastifyPlugin from "fastify-plugin";
 import type { TokenPayload } from "../../types/auth";
 import getPublicKey from "./jwks";
 import { isAdmin } from "../../modules/users/repository";
-import { BaseError, Forbidden, Unauhtorized } from "../../utils/errors";
+import { BaseError, Forbidden, Unauthorized } from "../../utils/errors";
 
 
 // Här finns isolerad auth-logik med JWT-verifiering, JWKS
@@ -24,7 +24,7 @@ export async function requireAuth(
     await request.jwtVerify();
   } catch (error) {
       request.log.error({ err: error }, "JWT verification failed");
-      throw new Unauhtorized("You are not authorized", {})
+      throw new Unauthorized("You are not authorized", {})
   }
 }
 
@@ -48,7 +48,7 @@ export async function requireAdmin(
       throw error;
     }
 
-    throw new Unauhtorized("You are not authorized", {})
+    throw new Unauthorized("You are not authorized", {})
   }
 } 
 
