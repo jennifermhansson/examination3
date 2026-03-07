@@ -14,17 +14,14 @@ export async function seedComments(userIds: SeedUserIds, postIds: number[]) {
   await db`
     INSERT INTO comments (comment, post_id, user_id)
     VALUES
-      -- på Annas posts (kommentarer av Erik/Lisa)
       ('Kul att se! Välkommen till utvecklarvärlden.', ${p1}, ${erikId}),
       ('Fastify är riktigt trevligt att jobba med.', ${p2}, ${lisaId}),
       ('Docker känns svårt i början men blir bättre.', ${p3}, ${erikId}),
 
-      -- på Eriks posts (kommentarer av Anna/Lisa)
       ('TypeScript är verkligen en lifesaver.', ${p4}, ${annaId}),
       ('Bra API-design gör livet lättare senare.', ${p5}, ${lisaId}),
       ('Den klassiska semikolon-buggen...', ${p6}, ${annaId}),
 
-      -- på Lisas posts (kommentarer av Anna/Erik)
       ('Backend är underskattat!', ${p7}, ${erikId}),
       ('SQL JOINs är som pusselbitar.', ${p8}, ${annaId}),
       ('Kaffe är obligatoriskt för kod.', ${p9}, ${erikId})
