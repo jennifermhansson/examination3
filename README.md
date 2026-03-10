@@ -37,7 +37,7 @@ Copy `client/.env.example` to `client/.env` and fill in values:
 VITE_AUTH0_DOMAIN=
 VITE_AUTH0_CLIENT_ID=
 VITE_AUTH0_AUDIENCE=
-VITE_API_BASE=http://localhost:3001
+VITE_API_BASE=http://localhost:3000
 ```
 
 ## 3. Install Dependencies
@@ -88,7 +88,7 @@ From project root:
 bun run start
 ```
 
-Backend runs on `http://localhost:3001`.
+Backend runs on `http://localhost:3000`.
 
 ### Terminal 2: Frontend
 
@@ -141,7 +141,7 @@ docker compose logs -f
 
 Recommended in your compose/env setup:
 
-- Backend should expose port `3001`
+- Backend should expose port `3000`
 - PostgreSQL should expose `5432` (or mapped port you choose)
 - Backend `DATABASE_URL` should point to the Postgres service name, for example:
 
@@ -157,6 +157,6 @@ DATABASE_URL=postgresql://postgres:postgres@postgres:5432/examdb
 
 If frontend cannot reach backend, verify:
 
-- `VITE_API_BASE` is `http://localhost:3001`
+- `VITE_API_BASE` is `http://localhost:3000`
 - Backend is running
 - CORS allows `http://localhost:5173` (configured in `src/app.ts`)

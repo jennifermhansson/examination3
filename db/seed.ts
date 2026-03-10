@@ -1,6 +1,6 @@
-import { seedUsers } from "./users";
-import { seedPosts } from "./posts";
-import { seedComments } from "./comments";
+import { seedUsers } from "./seeds/users";
+import { seedPosts } from "./seeds/posts";
+import { seedComments } from "./seeds/comments";
 
 export async function runSeeds() {
   console.log("Seeding database...");

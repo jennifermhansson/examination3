@@ -3,7 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun --hot ./src/server.ts"
+    "start": "bun --hot ./src/server.ts",
+    "migrate": "bun run db/migrate.ts",
+    "seed": "bun run db/seed.ts"
   },
   "private": true,
   "devDependencies": {
@@ -19,6 +21,7 @@
     "fastify": "^5.8.1",
     "fastify-plugin": "^5.1.0",
     "jwks-rsa": "^3.2.2",
+    "postgres": "^3.4.8",
     "sanitize-html": "^2.17.1"
   }
 }
