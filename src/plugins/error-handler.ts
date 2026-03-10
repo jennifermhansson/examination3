@@ -8,7 +8,7 @@ app.setErrorHandler((error: unknown, request, reply) => {
       return reply.status(error.statusCode).send(publicError)
     }
     
-    if ((error as any)?.code === "FST_ERR_VALIDATION") {
+    if ((error as any)?.code === "FST_ERR_VALIDATION") { 
     const validationError = new ValidationError("Invalid request data", error as Error);
 
     return reply

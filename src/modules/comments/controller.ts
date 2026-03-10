@@ -28,12 +28,12 @@ export async function createNewComment(request: FastifyRequest<{Params: { postId
   return reply.status(201).send(newComment);
 }
 
-export async function getCommentPerPost(
+export async function getCommentForPostId(
   request: FastifyRequest<{ Params: { postId: string } }>,
   reply: FastifyReply
 ) {
   const postId = Number(request.params.postId); 
-  const comments = await repository.getCommentPerPost(postId);
+  const comments = await repository.getCommentForPostId(postId);
 
   return reply.status(200).send(comments);
 }
@@ -43,12 +43,13 @@ export async function editCommentById(
   reply: FastifyReply
 ) {
   const commentId = Number(request.params.id);
-  
+  const auth0_id = (request.user as TokenPayload | undefined)?.sub;
   const { comment } = request.body;
 
   const updated = await service.editCommentById(
    commentId,
-   comment
+   comment,
+   auth0_id,
   );
 
   return reply.status(200).send(updated);
@@ -57,7 +58,9 @@ export async function editCommentById(
 export async function deleteComment(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.params as { id: string };
   const commentId = Number(id);
-  await service.deleteComment(commentId);
+  const auth0_id = (request.user as TokenPayload | undefined)?.sub;
+
+  await service.deleteComment(commentId, auth0_id);
   
   return reply.status(204).send();
 }

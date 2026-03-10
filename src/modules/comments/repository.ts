@@ -1,7 +1,10 @@
 import db from "../../db";
 
 export async function getAllComments() {
-  const comments = await db`SELECT * FROM comments`;
+  const comments = await db`    
+  SELECT id, post_id, comment, created_at
+    FROM comments
+    ORDER BY created_at DESC`;
   return comments;
 }
 
@@ -18,7 +21,7 @@ export async function createNewComment(comment: string, post_id: number, auth0_i
   return newComment ?? null;
 }
 
-export async function getCommentPerPost(postId: number) {
+export async function getCommentForPostId(postId: number) {
   const comments = await db`
     SELECT id, post_id, user_id, comment, created_at
     FROM comments
@@ -30,12 +33,16 @@ export async function getCommentPerPost(postId: number) {
 
 export async function updateCommentByIdForUser(
   commentId: number,
-  comment: string
+  comment: string,
+  auth0_id: string,
 ) {
   const [row] = await db`
     UPDATE comments c
     SET comment = ${comment}
+    FROM users u
     WHERE c.id = ${commentId}
+      AND c.user_id = u.id
+      AND u.auth0_id = ${auth0_id}
     RETURNING c.id, c.post_id, c.user_id, c.comment, c.created_at
   `;
   return row ?? null;
@@ -51,11 +58,14 @@ export async function findCommentById(commentId: number) {
   return comment ?? null;
 }
 
-export async function deleteCommentById(commentId: number) {
+export async function deleteCommentById(commentId: number, auth0_id: string) {
 const rows = await db`
-    DELETE FROM comments
-    WHERE id = ${commentId}
-    RETURNING id
+    DELETE FROM comments c
+    USING users u
+    WHERE c.id = ${commentId}
+      AND c.user_id = u.id
+      AND u.auth0_id = ${auth0_id}
+    RETURNING c.id
   `;
   return Array.isArray(rows) && rows.length > 0;
 }

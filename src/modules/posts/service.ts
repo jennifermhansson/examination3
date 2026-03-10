@@ -44,8 +44,13 @@ export async function createPostForAuthUser(
 export async function editPostById(
   postId: number,
   title: string,
-  content: string
+  content: string,
+  auth0_id?: string,
 ) {
+  if (!auth0_id) {
+    throw new Unauthorized("Invalid token payload", {});
+  }
+
   const cleanTitle = sanitizeText(title);
   const cleanContent = sanitizeText(content);
 
@@ -55,7 +60,8 @@ export async function editPostById(
   const updated = await repository.updatePostByIdForUser(
     postId,
     cleanTitle,
-    cleanContent
+    cleanContent,
+    auth0_id,
   );
 
   if (updated) return updated;
@@ -65,11 +71,21 @@ export async function editPostById(
   throw new Forbidden("Not allowed to edit this post", {});
 }
 
-export async function deletePost(postId: number) {
-  const postExist = await repository.deletePostById(postId);
+export async function deletePost(postId: number, auth0_id?: string) {
+  if (!auth0_id) {
+    throw new Unauthorized("Invalid token payload", {});
+  }
 
-  if (!postExist) {
-    throw new NotFound("Post not found",{})}
+  const postExist = await repository.deletePostById(postId, auth0_id);
 
-  return;
+  if (postExist) {
+    return;
+  }
+
+  const exists = await repository.findPostById(postId);
+  if (!exists) {
+    throw new NotFound("Post not found", {});
+  }
+
+  throw new Forbidden("Not allowed to delete this post", {});
 }

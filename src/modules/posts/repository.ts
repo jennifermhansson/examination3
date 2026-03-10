@@ -46,7 +46,7 @@ export async function updatePostByIdForUser(
   postId: number,
   title: string,
   content: string,
-
+  auth0_id: string,
 ) {
   const [row] = await db`
     UPDATE posts p
@@ -54,16 +54,20 @@ export async function updatePostByIdForUser(
     FROM users u
     WHERE p.id = ${postId}
       AND p.user_id = u.id
+      AND u.auth0_id = ${auth0_id}
     RETURNING p.id, p.title, p.content, p.user_id, p.created_at
   `;
   return row ?? null;
 }
 
-export async function deletePostById(postId: number) {
+export async function deletePostById(postId: number, auth0_id: string) {
 const rows = await db`
-    DELETE FROM posts
-    WHERE id = ${postId}
-    RETURNING id
+    DELETE FROM posts p
+    USING users u
+    WHERE p.id = ${postId}
+      AND p.user_id = u.id
+      AND u.auth0_id = ${auth0_id}
+    RETURNING p.id
   `;
   return Array.isArray(rows) && rows.length > 0;
 }

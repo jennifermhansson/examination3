@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import * as controller from "./controller"
 import { requireAuth } from "../../plugins/auth/auth";
-import { createPostSchema, postIdSchema } from "./schema";
+import { createPostSchema, postIdSchema, updatePostSchema } from "./schema";
 
 async function routes(
   fastifyServer: FastifyInstance,
@@ -15,7 +15,7 @@ async function routes(
 
     fastifyServer.route({
     method: "GET",
-    url: "/post/:id",
+    url: "/posts/:id",
     schema: postIdSchema,
     handler: controller.getPostById,
   });
@@ -39,7 +39,7 @@ async function routes(
     method: "PUT",
     url: "/posts/:id",
     preHandler: requireAuth,
-    schema: createPostSchema,
+    schema: updatePostSchema,
     handler: controller.editPostById,
   });
 

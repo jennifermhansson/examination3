@@ -6,16 +6,18 @@ export const postIdParamsSchema = {
   },
 };
 
+const commentBodySchema = {
+  type: "object",
+  required: ["comment"],
+  additionalProperties: false,
+  properties: {
+    comment: { type: "string", minLength: 1, maxLength: 1000 },
+  },
+};
+
 export const createCommentSchema = {
   params: postIdParamsSchema,
-  body: {
-    type: "object",
-    required: ["comment"],
-    additionalProperties: false,
-    properties: {
-      comment: { type: "string", minLength: 1, maxLength: 1000 },
-    },
-  },
+  body: commentBodySchema,
 };
 
 export const commentIdSchema = {
@@ -26,4 +28,9 @@ export const commentIdSchema = {
       id: { type: "integer", minimum: 1 }
     }
   }
+};
+
+export const updateCommentSchema = {
+  params: commentIdSchema.params,
+  body: commentBodySchema,
 };

@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import * as controller from "./controller";
 import { requireAuth, requireAdmin } from "../../plugins/auth/auth";
+import { userIdSchema } from "./schema";
 // import { CreateUserSchema } from "./schema";
 
 
@@ -19,8 +20,9 @@ async function routes(
   // kolla om delete ska ha protected också?
     fastifyServer.route({
     method: "DELETE",
-    url: "/:id",
+    url: "/delete/:id",
     preHandler: requireAdmin,
+    schema: userIdSchema,
     handler: controller.deleteUser,
   });
 }

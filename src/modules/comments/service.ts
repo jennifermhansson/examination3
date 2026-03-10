@@ -34,7 +34,15 @@ export async function createCommentForAuthUser(
 
 
 
-export async function editCommentById(commentId: number, comment: string) {
+export async function editCommentById(
+  commentId: number,
+  comment: string,
+  auth0_id?: string
+) {
+  if (!auth0_id) {
+    throw new Unauthorized("Invalid token payload", {});
+  }
+
   const cleanComment = sanitizeText(comment);
 
   if (!cleanComment) {
@@ -43,7 +51,8 @@ export async function editCommentById(commentId: number, comment: string) {
 
   const updated = await repository.updateCommentByIdForUser(
     commentId,
-    cleanComment
+    cleanComment,
+    auth0_id
   );
 
   if (updated) return updated;
@@ -55,12 +64,21 @@ export async function editCommentById(commentId: number, comment: string) {
 
 
 
-export async function deleteComment(id: number) {
-  const commentExist = await repository.deleteCommentById(id);
-
-  if (!commentExist) {
-     throw new NotFound("Comment not found",{});
+export async function deleteComment(id: number, auth0_id?: string) {
+  if (!auth0_id) {
+    throw new Unauthorized("Invalid token payload", {});
   }
 
-  return;
+  const commentExist = await repository.deleteCommentById(id, auth0_id);
+
+  if (commentExist) {
+    return;
+  }
+
+  const exists = await repository.findCommentById(id);
+  if (!exists) {
+    throw new NotFound("Comment not found", {});
+  }
+
+  throw new Forbidden("Not allowed to delete this comment", {});
 }

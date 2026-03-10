@@ -18,10 +18,6 @@ export async function upsertUser(user: {
   return newUser ?? null;
 }
 
-export async function isAdmin(auth0Id: string): Promise<boolean> {
-  const [user] = await db`SELECT role FROM users WHERE auth0_id = ${auth0Id}`;
-  return user?.role === "admin";
-}
 
 export async function deleteUserById(userId: number) {
   const [deletedUser] = await db`

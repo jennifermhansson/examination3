@@ -43,11 +43,13 @@ export async function editPostById(
 ) {
   const postId = Number(request.params.id);
   const { title, content } = request.body;
+  const auth0_id = (request.user as TokenPayload | undefined)?.sub;
 
   const updated = await service.editPostById(
     postId,
     title,
     content,
+    auth0_id,
   );
 
   return reply.status(200).send(updated);
@@ -56,7 +58,9 @@ export async function editPostById(
 export async function deletePost(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.params as { id: string };
   const postId = Number(id);
-  await service.deletePost(postId);
+  const auth0_id = (request.user as TokenPayload | undefined)?.sub;
+
+  await service.deletePost(postId, auth0_id);
 
   return reply.status(204).send();
 }

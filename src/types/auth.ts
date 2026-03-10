@@ -7,4 +7,6 @@ export type TokenPayload = {
   display_name: string;
   iat: string;
   exp: string;
+  scope?: string,
+  permissions?: string[],
 };
