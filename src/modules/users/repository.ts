@@ -18,6 +18,14 @@ export async function upsertUser(user: {
   return newUser ?? null;
 }
 
+export async function getAllUsers() {
+  const users = await db`    
+  SELECT id, auth0_id, email, name, role, created_at
+    FROM users
+    ORDER BY created_at DESC`;
+  return users;
+}
+
 
 export async function deleteUserById(userId: number) {
   const [deletedUser] = await db`

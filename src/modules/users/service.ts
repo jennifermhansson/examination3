@@ -16,6 +16,10 @@ export async function syncUserFromAuth0(payload: {
   return dbUser;
 }
 
+export async function getAllUserForAdmin() {
+  return repository.getAllUsers();
+}
+
 export async function deleteUserById(userId: number) {
   const deletedUser = await repository.deleteUserById(userId);
 

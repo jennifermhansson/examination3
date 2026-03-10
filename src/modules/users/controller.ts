@@ -17,6 +17,12 @@ export async function getOrCreateUser(
   return reply.status(200).send(dbUser);
 }
 
+export async function getAllUsers(_request: FastifyRequest, reply: FastifyReply) {
+  const users = await service.getAllUserForAdmin();
+  
+  return reply.status(200).send(users);
+}
+
 type DeleteUserParams = {
   id: string;
 };

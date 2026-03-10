@@ -17,6 +17,14 @@ async function routes(
     handler: controller.getOrCreateUser,
   });
 
+    fastifyServer.route({
+    method: "GET",
+    url: "/all",
+    preHandler: requireAdmin,
+    // schema: userIdSchema,
+    handler: controller.getAllUsers,
+  });
+
   // kolla om delete ska ha protected också?
     fastifyServer.route({
     method: "DELETE",
