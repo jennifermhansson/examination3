@@ -5,6 +5,9 @@ import type { TokenPayload } from "../../types/auth";
 import getPublicKey from "./jwks";
 import { BaseError, Forbidden, Unauthorized } from "../../utils/errors";
 
+if (!process.env.AUTH0_ISSUER) throw new Error("No AUTH0_ISSUER provided");
+if (!process.env.AUTH0_AUDIENCE) throw new Error("No AUTH0_AUDIENCE provided");
+
 function hasPermission(payload: TokenPayload, permission: string) {
   if (Array.isArray(payload.permissions) && payload.permissions.includes(permission)) {
     return true;

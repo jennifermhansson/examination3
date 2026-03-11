@@ -9,27 +9,27 @@ async function routes(
 ) {
     fastifyServer.route({
     method: "GET",
-    url: "/posts",
+    url: "/",
     handler: controller.getAllPosts,
   });
 
     fastifyServer.route({
     method: "GET",
-    url: "/posts/:id",
+    url: "/:id",
     schema: postIdSchema,
     handler: controller.getPostById,
   });
 
     fastifyServer.route({
     method: "GET",
-    url: "/users/:id/posts",
+    url: "/user/:id",    
     schema: postIdSchema,
     handler: controller.getPostsByUserId,
   });
 
     fastifyServer.route({
     method: "POST",
-    url: "/posts",
+    url: "/",
     preHandler: requireAuth,
     schema: createPostSchema,
     handler: controller.createNewPost,
@@ -37,7 +37,7 @@ async function routes(
 
     fastifyServer.route({
     method: "PUT",
-    url: "/posts/:id",
+    url: "/:id",
     preHandler: requireAuth,
     schema: updatePostSchema,
     handler: controller.editPostById,
@@ -45,12 +45,11 @@ async function routes(
 
     fastifyServer.route({
     method: "DELETE",
-    url: "/posts/:id",
+    url: "/:id",
     preHandler: requireAuth,
     schema: postIdSchema,
     handler: controller.deletePost,
   });
-
 
 }
 export default routes

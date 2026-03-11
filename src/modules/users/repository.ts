@@ -19,13 +19,32 @@ export async function upsertUser(user: {
 }
 
 export async function getAllUsers() {
-  const users = await db`    
-  SELECT id, auth0_id, email, name, role, created_at
-    FROM users
-    ORDER BY created_at DESC`;
+  const users = await db`
+    SELECT
+      u.id,
+      u.auth0_id,
+      u.email,
+      u.name,
+      u.role,
+      u.created_at,
+
+      (
+        SELECT COUNT(*)
+        FROM posts p
+        WHERE p.user_id = u.id
+      ) AS post_count,
+
+      (
+        SELECT COUNT(*)
+        FROM comments c
+        WHERE c.user_id = u.id
+      ) AS comment_count
+
+    FROM users u
+    ORDER BY u.created_at DESC
+  `;
   return users;
 }
-
 
 export async function deleteUserById(userId: number) {
   const [deletedUser] = await db`

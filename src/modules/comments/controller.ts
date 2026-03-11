@@ -28,12 +28,12 @@ export async function createNewComment(request: FastifyRequest<{Params: { postId
   return reply.status(201).send(newComment);
 }
 
-export async function getCommentForPostId(
+export async function getCommentsByPostId(
   request: FastifyRequest<{ Params: { postId: string } }>,
   reply: FastifyReply
 ) {
   const postId = Number(request.params.postId); 
-  const comments = await repository.getCommentForPostId(postId);
+  const comments = await repository.getCommentsForPostId(postId);
 
   return reply.status(200).send(comments);
 }

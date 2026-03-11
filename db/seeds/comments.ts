@@ -4,11 +4,11 @@ import type { SeedUserIds } from "./users";
 export async function seedComments(userIds: SeedUserIds, postIds: number[]) {
   const { annaId, erikId, lisaId } = userIds;
 
-  // postIds är i samma ordning som du skapade posts ovan (9 st)
+  
   const [
-    p1, p2, p3,  // Annas posts
-    p4, p5, p6,  // Eriks posts
-    p7, p8, p9,  // Lisas posts
+    p1, p2, p3, 
+    p4, p5, p6,  
+    p7, p8, p9,  
   ] = postIds;
 
   await db`

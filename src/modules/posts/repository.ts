@@ -2,27 +2,58 @@ import db from "../../db";
 
 export async function getAllPosts() {
   const posts = await db`
-    SELECT id, user_id, title, content, created_at
-    FROM posts
-    ORDER BY created_at DESC`;
+      SELECT 
+      p.id,
+      p.user_id,
+      u.name AS post_author_name,
+      p.title,
+      p.content,
+      p.created_at,
+      COUNT(c.id) AS comment_count
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN comments c ON p.id = c.post_id
+    GROUP BY p.id, u.name
+    ORDER BY p.created_at DESC`;
   return posts;
 }
   
 export async function findPostById(postId: number) {
   const [post] = await db`
-    SELECT id, title, content, created_at
-    FROM posts
-    WHERE id = ${postId}
+    SELECT
+      p.id,
+      p.user_id,
+      u.name AS post_author_name,
+      p.title,
+      p.content,
+      p.created_at,
+      COUNT(c.id) AS comment_count
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN comments c ON p.id = c.post_id
+    WHERE p.id = ${postId}
+    GROUP BY p.id, u.name
   `;
 
-  return post ?? null;
+  return post ?? null
 }
 
 export async function getPostsByUserId(userId: number) {
   const posts = await db`
-    SELECT id, title, content, created_at
-    FROM posts
-    WHERE user_id = ${userId}
+    SELECT
+      p.id,
+      p.user_id,
+      u.name AS post_author_name,
+      p.title,
+      p.content,
+      p.created_at,
+      COUNT(c.id) AS comment_count
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN comments c ON p.id = c.post_id
+    WHERE p.user_id = ${userId}
+    GROUP BY p.id, u.name
+    ORDER BY p.created_at DESC
   `;
 
   return posts;

@@ -1,10 +1,6 @@
 import type { FastifyRequest } from "fastify";
 import jwksClient from "jwks-rsa";
 
-// här finns kontroll mot Auth0 för public Key
-
-// borde standarisera felmeddelande?
-// kolla om detta ink refresh token?
 
 const AUTH0_JWKS_URI = process.env.AUTH0_JWKS_URI;
 

@@ -1,9 +1,20 @@
 import db from "../../db";
 
 export async function getAllComments() {
-  const comments = await db`    
-  SELECT id, post_id, comment, created_at
-    FROM comments
+  const comments = await db`   
+    SELECT
+       c.id,
+      c.post_id,
+      p.user_id AS post_author_id,
+      pu.name AS post_author_name,
+      c.user_id AS comment_author_id,
+      cu.name AS comment_author_name,
+      c.comment,
+      c.created_at
+    FROM comments c
+    JOIN posts p ON c.post_id = p.id
+    JOIN users cu ON c.user_id = cu.id
+    JOIN users pu ON p.user_id = pu.id
     ORDER BY created_at DESC`;
   return comments;
 }
@@ -21,12 +32,23 @@ export async function createNewComment(comment: string, post_id: number, auth0_i
   return newComment ?? null;
 }
 
-export async function getCommentForPostId(postId: number) {
+export async function getCommentsForPostId(postId: number) {
   const comments = await db`
-    SELECT id, post_id, user_id, comment, created_at
-    FROM comments
-    WHERE post_id = ${postId}
-    ORDER BY created_at DESC
+ SELECT
+      c.id,
+      c.post_id,
+      p.user_id AS post_author_id,
+      pu.name AS post_author,
+      c.user_id AS comment_author_id,
+      cu.name AS comment_author_name,
+      c.comment,
+      c.created_at
+    FROM comments c
+    JOIN posts p ON c.post_id = p.id
+    JOIN users cu ON c.user_id = cu.id
+    JOIN users pu ON p.user_id = pu.id
+    WHERE c.post_id = ${postId}
+    ORDER BY c.created_at DESC
   `;
   return comments;
 }

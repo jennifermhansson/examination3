@@ -1,12 +1,12 @@
 import { App } from "./app"
+import db from "./db"
 
 // här startar Fastify servern, lyssnar på porten och kontrollerar anslutningen till databasen.
-
-// borde jag byta till port 3000?
 
 const server = App()
 
     async function testDbConnection() {
+      await db`SELECT 1`;
       console.log("Connected to PostgreSQL");
     }
 

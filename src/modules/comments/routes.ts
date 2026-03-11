@@ -9,20 +9,20 @@ async function routes(
 ) {
     fastifyServer.route({
     method: "GET",
-    url: "/comments",
+    url: "/",
     handler: controller.getAllComments,
   });
 
     fastifyServer.route({
     method: "GET",
-    url: "/posts/:postId/comments",
+    url: "/posts/:postId",
     schema: { params: postIdParamsSchema },
-    handler: controller.getCommentForPostId,
+    handler: controller.getCommentsByPostId,
   });
 
     fastifyServer.route({
     method: "POST",
-    url: "/posts/:postId/comments",
+    url: "/posts/:postId",
     preHandler: requireAuth,
     schema: createCommentSchema,
     handler: controller.createNewComment,
@@ -30,16 +30,15 @@ async function routes(
 
     fastifyServer.route({
     method: "PUT",
-    url: "/comments/:id",
+    url: "/:id",
     preHandler: requireAuth,
     schema: updateCommentSchema,
     handler: controller.editCommentById,
     });
   
-  
     fastifyServer.route({
     method: "DELETE",
-    url: "/comments/:id",
+    url: "/:id",
     preHandler: requireAuth,
     schema: commentIdSchema,
     handler: controller.deleteComment,

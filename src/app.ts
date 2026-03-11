@@ -13,7 +13,6 @@ export function App() {
     logger: true
   });
 
-
   app.register(cors, {
   origin: ["http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -23,11 +22,9 @@ export function App() {
   registerErrorHandler(app)
 
   app.register(authPlugin);
-  app.register(postsRoutes);
-  app.register(commentsRoutes)
   app.register(usersRoutes, { prefix: "/users" });
-
-// dubbelkolla vad prefixet gör
+  app.register(postsRoutes, { prefix: "/posts" });
+  app.register(commentsRoutes, { prefix: "/comments" });
 
 return app;
 }

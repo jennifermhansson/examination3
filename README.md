@@ -66,8 +66,8 @@ psql "$DATABASE_URL" -f db/migrations/002_users_auth0_upsert.sql
 psql "$DATABASE_URL" -f db/migrations/003_posts.sql
 psql "$DATABASE_URL" -f db/migrations/004_comments.sql
 psql "$DATABASE_URL" -f db/migrations/005_comments.sql
-psql "$DATABASE_URL" -f db/migrations/005_user_role.sql
-psql "$DATABASE_URL" -f db/migrations/006_user_nullable
+psql "$DATABASE_URL" -f db/migrations/006_user_role.sql
+psql "$DATABASE_URL" -f db/migrations/007_user_nullable.sql
 ```
 
 Optional: seed test data

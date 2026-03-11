@@ -32,8 +32,6 @@ export async function createCommentForAuthUser(
   return newComment;
 }
 
-
-
 export async function editCommentById(
   commentId: number,
   comment: string,
@@ -61,8 +59,6 @@ export async function editCommentById(
   if (!exists) throw new NotFound("Comment not found", {});
   throw new Forbidden("Not allowed to edit this comment", {});
 }
-
-
 
 export async function deleteComment(id: number, auth0_id?: string) {
   if (!auth0_id) {

@@ -21,6 +21,5 @@ export async function seedPosts(userIds: SeedUserIds) {
     RETURNING id
   `;
 
-  // postgres.js returnerar en array av rader
   return res.map((r: { id: number }) => r.id);
 }

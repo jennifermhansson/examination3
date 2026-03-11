@@ -15,10 +15,10 @@ export async function runSeeds() {
 
   await seedComments(userIds, postIds);
   
-  console.log("✅ Seed klart!");
+  console.log("Seed klart!");
 }
 
 runSeeds().catch((err) => {
-  console.error("❌ Seed fail:", err);
+  console.error("Seed fail:", err);
   process.exit(1);
 });

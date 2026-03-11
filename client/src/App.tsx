@@ -24,7 +24,7 @@ export default function App() {
     });
         setToken(accessToken); 
 
-    const url = `${import.meta.env.VITE_API_BASE}/users/protected`;
+    const url = `${import.meta.env.VITE_API_BASE}/users/me`;
 
     const res = await fetch(url, {
       headers: {
