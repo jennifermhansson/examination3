@@ -1,4 +1,4 @@
-import db from "../../db";
+import db from '../../db';
 
 export async function getAllComments() {
   const comments = await db`   
@@ -19,7 +19,11 @@ export async function getAllComments() {
   return comments;
 }
 
-export async function createNewComment(comment: string, post_id: number, auth0_id: string) {
+export async function createNewComment(
+  comment: string,
+  post_id: number,
+  auth0_id: string,
+) {
   const [newComment] = await db`
     INSERT INTO comments (post_id, user_id, comment)
     SELECT p.id, u.id, ${comment}
@@ -34,11 +38,11 @@ export async function createNewComment(comment: string, post_id: number, auth0_i
 
 export async function getCommentsForPostId(postId: number) {
   const comments = await db`
- SELECT
+    SELECT
       c.id,
       c.post_id,
       p.user_id AS post_author_id,
-      pu.name AS post_author,
+      pu.name AS post_author, 
       c.user_id AS comment_author_id,
       cu.name AS comment_author_name,
       c.comment,
@@ -81,7 +85,7 @@ export async function findCommentById(commentId: number) {
 }
 
 export async function deleteCommentById(commentId: number, auth0_id: string) {
-const rows = await db`
+  const rows = await db`
     DELETE FROM comments c
     USING users u
     WHERE c.id = ${commentId}
@@ -91,4 +95,3 @@ const rows = await db`
   `;
   return Array.isArray(rows) && rows.length > 0;
 }
-  
