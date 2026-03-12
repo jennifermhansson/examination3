@@ -1,28 +1,21 @@
-/* export const CreateUserSchema = {
-  params: {
-    type: "object",
-    required: ["id"],
-    properties: {
-      id: { type: "integer", minimum: 1 },
-    },
-  },
+export const CreateUserSchema = {
   body: {
-    type: "object",
+    type: 'object',
     additionalProperties: false,
+    required: ['email'],
     properties: {
-      name: { type: "string", minLength: 1, maxLength: 80 },
-      bio: { type: "string", maxLength: 500 },
+      email: { type: 'string', format: 'email' },
+      name: { type: 'string', minLength: 1, maxLength: 80 },
     },
   },
 };
 
- */
 export const userIdSchema = {
   params: {
-    type: "object",
-    required: ["id"],
+    type: 'object',
+    required: ['id'],
     properties: {
-      id: { type: "integer", minimum: 1 }
-    }
-  }
+      id: { type: 'integer', minimum: 1 },
+    },
+  },
 };

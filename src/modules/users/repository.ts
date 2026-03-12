@@ -1,4 +1,4 @@
-import db from "../../db";
+import db from '../../db';
 
 export async function upsertUser(user: {
   auth0_id: string;
