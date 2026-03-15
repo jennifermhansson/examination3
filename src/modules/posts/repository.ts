@@ -38,7 +38,6 @@ export async function findPostById(postId: number) {
   return post ?? null;
 }
 
-
 export async function getPostsByUserId(userId: number) {
   const posts = await db`
     SELECT

@@ -24,7 +24,6 @@ async function routes(
     handler: controller.getAllUsers,
   });
 
-  // kolla om delete ska ha protected också?
   fastifyServer.route({
     method: 'DELETE',
     url: '/:id',

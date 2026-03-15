@@ -7,8 +7,6 @@ import usersRoutes from './modules/users/routes';
 import { authPlugin } from './plugins/auth/auth';
 import { registerErrorHandler } from './plugins/error-handler';
 
-// Här konfigureras appen med plugins, routes, middlewares och auth
-
 export function App() {
   const app = fastify({
     logger: true,
